@@ -1,0 +1,72 @@
+# -- Conky settings -- #
+#background no
+update_interval 2
+
+cpu_avg_samples 2
+net_avg_samples 2
+
+override_utf8_locale yes
+
+double_buffer yes
+no_buffers yes
+
+text_buffer_size 2048
+imlib_cache_size 0
+
+# -- Window specifications -- #
+
+own_window yes
+own_window_transparent no
+own_window_type desktop
+#own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_colour 000000
+
+#colors
+#good blue 1994d1
+#medium blue 083146
+#dark blue 041e2c
+#lime 86c113
+color1 202020
+color2 86c113
+color3 1994d1
+color4 aa0000
+color5 1d1d1d
+color6 cccccc
+
+border_inner_margin 1
+border_outer_margin 0
+
+minimum_size 32 158
+maximum_width 32
+maximum_height 149
+
+alignment bottom_right
+gap_x 0
+gap_y 0
+
+# -- Graphics settings -- #
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders yes
+
+# -- Text settings -- #
+use_xft yes
+xftfont DejaVu Sans Mono:size=6.5
+xftalpha 0.4
+
+uppercase no
+
+default_color dddddd
+border_width 0
+
+# -- Lua Load -- #
+lua_load ~/projects/configs/work/vertical-bar/rings.lua
+lua_draw_hook_pre ring_stats
+ 
+TEXT
+${voffset 26}${goto 0}CPU
+${voffset 16}${goto 9}${acpitemp}
+${voffset 0}${goto 0}TEMP
+${voffset 25}${goto 0}MEM
+${voffset 3}${color1}${goto 0}${battery_bar 4,32 BAT0}
