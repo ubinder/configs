@@ -1,0 +1,28 @@
+#!/bin/bash
+
+PIPE=/home/maik/mypipe
+
+if [ $# = 0 ]; then
+	ARG=""
+	read NUM <$PIPE
+	II=0
+	until [ $II = $NUM ]
+	do
+		if read line <$PIPE; then
+			ARG="$ARG $line NEXT "
+			let II=$II+1
+		fi
+	done
+	patched-meld $ARG
+	`rm -f $PIPE`
+else
+	echo "$@" > $PIPE
+	while [ 1 ]
+	do
+		sleep 2
+		if [ ! -f $PIPE ]; then
+			exit 0
+		fi
+	done
+fi
+

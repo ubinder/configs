@@ -1,0 +1,36 @@
+#!/bin/bash
+
+PIPE=/home/maik/mypipe
+
+rm -f $PIPE
+
+FILENAMES=`git diff --name-only "$@"`
+
+until [ -d ".git" ]
+do
+	cd ..
+	CURDIR=`pwd`
+	if [ $CURDIR = "/" ]; then
+		exit 1
+	fi
+done
+
+NUM=0
+for file in $FILENAMES
+do
+	let NUM=$NUM+1
+done
+
+if [ $NUM = 0 ]; then
+	exit 0
+fi
+
+mkfifo $PIPE
+git-diffall2 >/dev/null &
+echo "$NUM" >$PIPE
+
+for file in $FILENAMES
+do
+	git difftool "$@" --no-prompt -x git-diffall2 $file >/dev/null &
+done
+
